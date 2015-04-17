@@ -54,8 +54,9 @@ sf::Vector2f* sp=&(body->speed);
 float distance;
 float collis;
 int i;
+bool check=1;
 sf::Vector2f collision;
-sp->y+=g*timedif;
+
 sf::FloatRect bodybox = body->name->getGlobalBounds();
 sf::FloatRect curentbox;
 
@@ -63,11 +64,12 @@ while(curent->next!=NULL){
 	curentbox = curent->name->getGlobalBounds();
 	if((bodybox.intersects(curentbox))&&(body!=curent)){
 	curent->speed.y-=(1+e)*curent->speed.y;
-	if(curent->speed.y>0)curent->speed.y-=g*timedif;
 	//collision
-	}
+	check=0;
+	sp->y-=(1+e)*curent->speed.y;}
        	curent=curent->next;
 }
+if(check)sp->y+=g*timedif;
 
 for (i=0;i<4;i++){
 	distance=planes[i][0]*(pos->x)+planes[i][1]*(pos->y)+planes[i][2];
