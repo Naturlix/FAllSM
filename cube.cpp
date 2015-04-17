@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 #include <math.h>
-#include <Transformable.hpp> //for rotation
+#include <SFML/Transformable.hpp> //for rotation
 #define resolution_X 1366
 #define resolution_Y 768
 #define funcsum 2 //number of cube examples
