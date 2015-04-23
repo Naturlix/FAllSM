@@ -134,6 +134,7 @@ int main()
 		do{
 		movement_calc(curent,first);
 		curent->name->setPosition((curent->position.x),(curent->position.y));
+		curent->name->rotate(curent->angle);
 		if(curent->next!=NULL)curent=curent->next;
 		} while(curent->next!=NULL);
 
