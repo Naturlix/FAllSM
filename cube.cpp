@@ -3,7 +3,6 @@
 #include <string>
 #include <iostream>
 #include <math.h>
-#include <SFML/Transformable.hpp> //for rotation
 #define resolution_X 1366
 #define resolution_Y 768
 #define funcsum 2 //number of cube examples
@@ -63,12 +62,16 @@ sf::FloatRect curentbox;
 while(curent->next!=NULL){
 	curentbox = curent->name->getGlobalBounds();
 	if((bodybox.intersects(curentbox))&&(body!=curent)){
-	curent->speed.y-=(1+e)*curent->speed.y;
-	//collision
-	check=0;
-	sp->y-=(1+e)*curent->speed.y;}
+		check=0;
+		/*if((body->position.x+body->texture.getSize().x/2 < curent->position.x+body->texture.getSize().x)&&
+		   (body->position.x+body->texture.getSize().x/2 > curent->position.x)&&(body->position.y>curent->position.y)){	*/
+		curent->speed.y-=(1+e)*curent->speed.y;
+		
+		sp->y-=(1+e)*curent->speed.y;
+		//}
+	}
        	curent=curent->next;
-}
+	}
 if(check)sp->y+=g*timedif;
 
 for (i=0;i<4;i++){
@@ -146,6 +149,6 @@ int main()
 	
 		window.display();
     		}
-return 0;
-  
+
+    return 0;
 }
