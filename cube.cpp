@@ -62,13 +62,22 @@ sf::FloatRect curentbox;
 while(curent->next!=NULL){
 	curentbox = curent->name->getGlobalBounds();
 	if((bodybox.intersects(curentbox))&&(body!=curent)){
+		//Упал в центр
+		if((body->position.x+body->texture.getSize().x/2 < curent->position.x+body->texture.getSize().x)&&
+		   (body->position.x+body->texture.getSize().x/2 > curent->position.x)/*&&(body->position.y>curent->position.y)*/){	
 		check=0;
-		/*if((body->position.x+body->texture.getSize().x/2 < curent->position.x+body->texture.getSize().x)&&
-		   (body->position.x+body->texture.getSize().x/2 > curent->position.x)&&(body->position.y>curent->position.y)){	*/
-		curent->speed.y-=(1+e)*curent->speed.y;
-		
-		sp->y-=(1+e)*curent->speed.y;
-		//}
+		sp->y-=(1+e)*sp->y;
+		}
+		//Упал справа
+		if((body->position.x+body->texture.getSize().x/2 > curent->position.x)/*&&(body->position.y>curent->position.y)*/){	
+		//сохранение момента импульса
+		}
+		//Упал слева
+		if((body->position.x+body->texture.getSize().x/2 < curent->position.x)/*&&(body->position.y>curent->position.y)*/){	
+		//сохранение момента импульса
+		}
+
+
 	}
        	curent=curent->next;
 	}
@@ -105,6 +114,7 @@ new_cube->position.y=-60;
 new_cube->speed.y=0;
 new_cube->speed.x=0;
 new_cube->next=NULL;
+new_cube->angle=0;
 return new_cube;
 };
 //----------------------------------------------
@@ -134,7 +144,7 @@ int main()
 		do{
 		movement_calc(curent,first);
 		curent->name->setPosition((curent->position.x),(curent->position.y));
-		curent->name->rotate(curent->angle);
+		curent->name->setRotation(curent->angle);
 		if(curent->next!=NULL)curent=curent->next;
 		} while(curent->next!=NULL);
 
