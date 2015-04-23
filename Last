@@ -1,3 +1,0 @@
-//	if((body->position.x+body->texture.getSize().x/2 < curent->position.x+body->texture.getSize().x)&&
-	//																	(body->position.x+body->texture.getSize().x/2 > curent->position.x)&&
-		//																(body->position.y>curent->position.y)){}
