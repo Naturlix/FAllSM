@@ -1,0 +1,152 @@
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <string>
+#include <iostream>
+#include <math.h>
+
+#define resolution_X 1366
+#define resolution_Y 768
+#define COMPLEXITY 50 //cube creating time
+#define density 0.18
+#define g 9.8
+#define timedif 0.01 //dt
+#define e 0.1 //elasticity
+
+
+//cubes list----------------------------------------
+#define funcsum 2 //number of cube examples
+std::string name_list[funcsum]={"dev.png","mov.png"};
+//--------------------------------------------------
+
+//cube itself-----------------------------------
+class cube{
+public:
+sf::RectangleShape* name;
+cube* next;
+sf::Texture texture;
+sf::Vector2f position[4];
+sf::Vector2f speed;
+sf::Vector2f mspeed;
+sf::Vector2f force;
+sf::Vector2f mforce;
+float mass;
+float angle;
+float friction;
+int width;
+int height;
+};
+//-----------------------------------------------
+
+float scalar(sf::Vector2f* first, sf::Vector2f* second){
+	return first->x*second->x+first->y*second->y;
+}
+
+bool	 check_collision(cube* first, cube* second){
+	float y,x;
+	int i,j;
+	for(i=0;i<4;i++){
+		if();
+	}
+
+	return sf::Vector2f(0,0);
+}
+
+
+//movement calculating function-------------------
+void movement_calc(cube* body,cube* current){
+int i;
+while(current->next!=NULL){
+	
+       	current=current->next;
+	}
+
+
+body->speed.y+=body->force.y/body->mass*timedif;
+body->speed.x+=body->force.x/body->mass*timedif;
+
+if(body->position[0].y>= resolution_Y && body->speed.y>0) body->speed.y-=(1+e)*body->speed.y; //temorary bottom border
+
+for(i=0;i<4;i++) body->position[i]+=body->speed;
+body->name->move(body->speed);
+body->name->setRotation(current->angle);
+}
+//--------------------------------------------
+
+
+//Cube creation function----------------------
+cube* create_cube(cube* last){
+int ChaosGod=rand() % funcsum;
+cube* new_cube=new cube;
+last->next=new_cube;
+new_cube->name=new sf::RectangleShape;
+new_cube->texture.loadFromFile(name_list[ChaosGod]);
+new_cube->name->setTexture(&(new_cube->texture));
+sf::Vector2u size=new_cube->texture.getSize();
+new_cube->name->setSize(sf::Vector2f(size.x,size.y));
+last->next=new_cube;
+
+new_cube->position[0].x=rand() % resolution_X;
+new_cube->position[0].y=-60;
+new_cube->position[1].x=new_cube->position[0].x+size.x;
+new_cube->position[1].y=new_cube->position[0].y;
+new_cube->position[2].x=new_cube->position[0].x+size.x;
+new_cube->position[2].y=new_cube->position[0].y+size.y;
+new_cube->position[3].x=new_cube->position[0].x;
+new_cube->position[3].y=new_cube->position[0].y+size.y;
+new_cube->name->setPosition(new_cube->position[0]);
+new_cube->name->setOrigin(size.x/2,size.x/2);
+new_cube->speed.y=0;
+new_cube->speed.x=0;
+new_cube->next=NULL;
+new_cube->angle=0;
+new_cube->mass=size.x*size.y*density;
+new_cube->width=size.x;
+new_cube->height=size.y;
+new_cube->force.x=0;
+new_cube->force.y=new_cube->mass*g;
+return new_cube;
+};
+//----------------------------------------------
+
+
+
+int main()
+{
+	int timer=0;
+	sf::RenderWindow window(sf::VideoMode(resolution_X, resolution_Y), "My window",sf::Style::None);
+	cube* last=new cube;
+	cube* current;
+	last=create_cube(last);	
+	cube* first=last;
+	
+		while (window.isOpen()){
+		sf::Event event;
+        	timer++;
+		
+		while (window.pollEvent(event)){ if (event.key.code == sf::Keyboard::Escape) window.close();}
+	
+		if(timer%COMPLEXITY==0) last=create_cube(last); //ever 1000 create a cube
+
+
+		current=first;//start to calculating a movement of all cubes
+
+		do{
+		movement_calc(current,first);
+		if(current->next!=NULL)current=current->next;
+		} while(current->next!=NULL);
+
+		
+        	window.clear(sf::Color::Black);//clear screen
+
+	
+        	current=first;//display all cubes
+		do{			
+			window.draw(*(current->name));
+       			if(current->next!=NULL)current=current->next;
+		}while(current->next!=NULL);
+	
+		window.display();
+    		}
+
+    return 0;
+}
