@@ -72,8 +72,11 @@ void movement_platform(cube* platform){
 
 	location.x=minloc.x;
 	location.y=700;
-	platform->BodyDef->position.Set(location.x/SCALE, 700/SCALE);
-	platform->Sprite.setPosition(location);
+	if(location.x>200){
+	platform->Body->SetLinearVelocity( b2Vec2( -100, 0 ) );
+	}else{
+	platform->Body->SetLinearVelocity( b2Vec2( 100, 0 ) );}	
+	platform->Sprite.setPosition(SCALE * platform->Body->GetPosition().x, SCALE * platform->Body->GetPosition().y);
 }
 
 
