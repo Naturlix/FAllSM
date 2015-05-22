@@ -62,20 +62,23 @@ void movement_calc(cube* current){
 	current->Sprite.setRotation(current->Body->GetAngle() * 180/b2_pi);
 }
 
-void movement_platform(cube* platform){
-	sf::Vector2f location;
+void movement_platform(cube* platform, float mouse){
+	
+	sf::Vector2f location;/*
         double    minval, maxval;
         CvPoint    minloc, maxloc;
 	src = cvQueryFrame(capture);
 	cvMatchTemplate( src, templ, frame, 0);
 	cvMinMaxLoc(frame, &minval, &maxval, &minloc, &maxloc, 0);
+*/
 
-	location.x=minloc.x;
+
+	location.x=400-mouse/resx*400/*minloc.x*/;
 	location.y=700;
 	if(location.x>200 && platform->Body->GetPosition().x>0){
-	platform->Body->SetLinearVelocity( b2Vec2( -20, 0 ) );
+	platform->Body->SetLinearVelocity( b2Vec2( (platform->Body->GetLinearVelocity().x)-0.1, 0 ) );
 	}else if(location.x<200 && platform->Body->GetPosition().x<resx/SCALE){
-	platform->Body->SetLinearVelocity( b2Vec2( 20, 0 ) );
+	platform->Body->SetLinearVelocity( b2Vec2( (platform->Body->GetLinearVelocity().x)+0.1, 0 ) );
 	}else{platform->Body->SetLinearVelocity( -0.01*(platform->Body->GetLinearVelocity()));}
 
 	platform->Sprite.setPosition(SCALE * platform->Body->GetPosition().x, SCALE * platform->Body->GetPosition().y);
@@ -108,24 +111,4 @@ cube* create_platform(b2World& World){
 	platform->height=size.y;
 	platform->Sprite.setOrigin(size.x/2, size.y/2);
 	return platform;
-}
-
-bool check_intersect (cube* current, cube* platform)
-{
-	/* double curx=current->Body->GetPosition().x;
-	double cury=current->Body->GetPosition().y;
-	double curh = curret->height;
-	double curw = current->width; */
-	sf::IntRect rp (platform->Body->GetPosition(), platform->Body->GetSize);
-	sf::IntRect rc (current>Body->GetPosition(), current->Body->GetSize();
-	sf::IntRect result;
-	bool ch = rp.intersects(rp, result);
-	return ch;
-}
-
-void printch (bool ch)
-{
-	if (ch==1) { cout<<"1"; }
-	if else (ch==0) { cout<<"0";}
-	else {cout<<"error"; }
 }
