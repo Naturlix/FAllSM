@@ -50,7 +50,7 @@ int main(){
 		Window.draw(current->Sprite);
        		if(current->next!=NULL)current=current->next;
 	}while(current->next!=NULL);
-	movement_platform(platform);
+	movement_platform(platform, sf::Mouse::getPosition(Window).x);
 	Window.draw(platform->Sprite);
         Window.display();
 	}
