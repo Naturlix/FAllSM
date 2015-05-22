@@ -67,15 +67,15 @@ void movement_platform(cube* platform){
         double    minval, maxval;
         CvPoint    minloc, maxloc;
 	src = cvQueryFrame(capture);
-	cvMatchTemplate( src, templ, frame, 1);
+	cvMatchTemplate( src, templ, frame, 0);
 	cvMinMaxLoc(frame, &minval, &maxval, &minloc, &maxloc, 0);
 
 	location.x=minloc.x;
 	location.y=700;
 	if(location.x>200){
-	platform->Body->SetLinearVelocity( b2Vec2( -100, 0 ) );
+	platform->Body->SetLinearVelocity( b2Vec2( -20, 0 ) );
 	}else{
-	platform->Body->SetLinearVelocity( b2Vec2( 100, 0 ) );}	
+	platform->Body->SetLinearVelocity( b2Vec2( 20, 0 ) );}	
 	platform->Sprite.setPosition(SCALE * platform->Body->GetPosition().x, SCALE * platform->Body->GetPosition().y);
 }
 
