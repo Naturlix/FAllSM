@@ -2,19 +2,20 @@
 #include<Box2D.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
+
 #include"cubefunction.cpp"
 
 
-
-
-
-
-
-
 int main(){
-
+	sf::SoundBuffer buffer;
+	buffer.loadFromFile("sound.ogg");
+	sf::Sound sound;
+	sound.setBuffer(buffer);
+	sound.play();
+	
 	sf::RenderWindow Window(sf::VideoMode(resx, resy, 32), "Test");
-    	Window.setFramerateLimit(60);
+    	Window.setFramerateLimit(24);
 
 	b2Vec2 Gravity(0.f, g);
     	b2World World(Gravity);
@@ -34,7 +35,7 @@ int main(){
 	if(timer%COMPLEXITY==0) last=create_cube(World, last); //ever 1000 create a cube
 
 
-        World.Step(1/60.f, 8, 3);
+        World.Step(1/24.f, 8, 3);
 
 
 	current=first;//start to calculating a movement of all cubes
