@@ -109,3 +109,23 @@ cube* create_platform(b2World& World){
 	platform->Sprite.setOrigin(size.x/2, size.y/2);
 	return platform;
 }
+
+bool check_intersect (cube* current, cube* platform)
+{
+	/* double curx=current->Body->GetPosition().x;
+	double cury=current->Body->GetPosition().y;
+	double curh = curret->height;
+	double curw = current->width; */
+	sf::IntRect rp (platform->Body->GetPosition(), platform->Body->GetSize);
+	sf::IntRect rc (current>Body->GetPosition(), current->Body->GetSize();
+	sf::IntRect result;
+	bool ch = rp.intersects(rp, result);
+	return ch;
+}
+
+void printch (bool ch)
+{
+	if (ch==1) { cout<<"1"; }
+	if else (ch==0) { cout<<"0";}
+	else {cout<<"error"; }
+}
