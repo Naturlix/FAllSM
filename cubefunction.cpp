@@ -112,3 +112,16 @@ cube* create_platform(b2World& World){
 	platform->Sprite.setOrigin(size.x/2, size.y/2);
 	return platform;
 }
+
+bool check_intersect (cube* current, cube* platform) //collision
+{
+	sf::FloatRect result;
+	sf::Vector2f pos_platform (platform->Body->GetPosition().x, platform->Body->GetPosition().y);
+	sf::Vector2f pos_current (current->Body->GetPosition().x, current->Body->GetPosition().x);
+	sf::Vector2f size_platform (platform->width, platform->height);
+	sf::Vector2f size_current (current->width, current->height);
+	sf::FloatRect r_platform (pos_platform, size_platform);
+	sf::FloatRect r_current (pos_current, size_current);
+	bool ch = r_platform.intersects(r_current, result);
+	return ch;
+}
