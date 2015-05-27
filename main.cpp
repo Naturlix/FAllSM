@@ -22,17 +22,21 @@ int main(){
 	sf::Texture mapTexture;
 	sf::Texture boatTexture;
 	sf::Texture vortexTexture;
-	sf::Texture finishTexture;	
+	sf::Texture finishTexture;
+	sf::Texture overTexture;
 	mapTexture.loadFromFile("map1.png");
 	boatTexture.loadFromFile("boat.png");
 	vortexTexture.loadFromFile("vortex.png");
 	finishTexture.loadFromFile("finish.png");
+	overTexture.loadFromFile("over.png");
 	sf::Sprite mapSprite;
 	sf::Sprite vortexSprite;
 	sf::Sprite finishSprite;
+	sf::Sprite overSprite;
 	mapSprite.setTexture(mapTexture);
 	vortexSprite.setTexture(vortexTexture);
 	finishSprite.setTexture(finishTexture);	
+	overSprite.setTexture(overTexture);
 	mapSprite.setPosition(400, 80);
 	finishSprite.setOrigin(32.f,32.f);
 	finishSprite.setPosition(25.5*32,17.5*32);
@@ -61,7 +65,13 @@ int main(){
 	boatSprite.setPosition(SCALE * boat->GetPosition().x, SCALE * boat->GetPosition().y);
 	Window.draw(boatSprite);
 	eventfind=eventcheck(boat);
-	if(eventfind==1) return 0;
+	if(eventfind==1) 
+	{
+		overSprite.setPosition(400, 80);
+		Window.draw(overSprite);
+		Window.display();
+		return 0;
+	}
         Window.display();
 	}
  
