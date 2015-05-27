@@ -1,6 +1,0 @@
-//	if((body->position.x+body->texture.getSize().x/2 < curent->position.x+body->texture.getSize().x)&&
-	//																	(body->position.x+body->texture.getSize().x/2 > curent->position.x)&&
-		//																(body->position.y>curent->position.y)){}
-//new_cube->name->setOrigin(size.x/2, size.y/2); //устанавливает точку, вокруг которой объект вращается
-curent->name->rotate(curent->angle); //in main to rotate the object
-body->angle=w*timedif; //in movement calculating function--
