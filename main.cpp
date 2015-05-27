@@ -67,10 +67,19 @@ int main(){
 	eventfind=eventcheck(boat);
 	if(eventfind==1) 
 	{
-		overSprite.setPosition(400, 80);
-		Window.draw(overSprite);
-		Window.display();
-		//Time Delay
+		
+		sf::Time elapsed; // set time object
+		sf::Time delay = sf::seconds(20.0f);
+		overSprite.setPosition(522, 202);
+		elapsed = sf::seconds(0.0f);
+		sf::Time count = sf::seconds (0.1f);
+		
+		while (elapsed<=delay) 
+		{
+			Window.draw(overSprite);
+			Window.display(); 
+			elapsed += count;
+		}
 		return 0;
 	}
         Window.display();
