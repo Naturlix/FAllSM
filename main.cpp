@@ -70,6 +70,7 @@ int main(){
 		overSprite.setPosition(400, 80);
 		Window.draw(overSprite);
 		Window.display();
+		//Time Delay
 		return 0;
 	}
         Window.display();
