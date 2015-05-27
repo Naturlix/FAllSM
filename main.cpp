@@ -3,86 +3,67 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
-#include <SFML/System/String.hpp>
-#include <iostream>
-#include <string>
-
+#include"map.h"
 #include"cubefunction.cpp"
-
-
 int main(){
-	sf::SoundBuffer buffer;
-	buffer.loadFromFile("sound.ogg");
-	sf::Sound sound;
-	sound.setBuffer(buffer);
-	sound.play();
+	int i;
+	int eventfind;
+//Prepare the window
+	sf::RenderWindow Window(sf::VideoMode(resx, resy), "BallSM", sf::Style::Fullscreen);
+	Window.setFramerateLimit(60);
+	sf::Event LogOut;
 	
-	bool ch=0;
-//	
-	sf::Clock clock; // starts the clock
-    sf::Time elapsed1; // set time object
-    int intSecondsCounted;
-    std::stringstream ss;
-//	
-	sf::RenderWindow Window(sf::VideoMode(resx, resy, 32), "Test");
-    	Window.setFramerateLimit(24);
-    //	
-    	sf::Font font;
-	font.loadFromFile("LiberationSans-Regular.ttf");
-	sf::Text text;
-	text.setFont (font);
-	text.setCharacterSize(30);
-	text.setStyle(sf::Text::Bold);
-	text.setColor(sf::Color::Blue);
-	text.setPosition(20,20);
-//		
-	b2Vec2 Gravity(0.f, g);
-    	b2World World(Gravity);
+//Prepare the world
+	b2Vec2 Gravity(0.f, 0.f);
+	b2World World(Gravity);
+    
+//Create map
+	for(i=0; i<mapnum; i++) {CreateWall(World, map[i][0]*32, map[i][1]*32);}
+	sf::Texture mapTexture;
+	sf::Texture boatTexture;
+	sf::Texture vortexTexture;
+	sf::Texture finishTexture;	
+	mapTexture.loadFromFile("map1.png");
+	boatTexture.loadFromFile("boat.png");
+	vortexTexture.loadFromFile("vortex.png");
+	finishTexture.loadFromFile("finish.png");
+	sf::Sprite mapSprite;
+	sf::Sprite vortexSprite;
+	sf::Sprite finishSprite;
+	mapSprite.setTexture(mapTexture);
+	vortexSprite.setTexture(vortexTexture);
+	finishSprite.setTexture(finishTexture);	
+	mapSprite.setPosition(400, 80);
+	finishSprite.setOrigin(32.f,32.f);
+	finishSprite.setPosition(25.5*32,17.5*32);
+	vortexSprite.setOrigin(16.f,16.f);	
 
-	cube* last=new cube;
-	cube* current;
-	last=create_cube(World, last);	
-	cube* first=last;
-	int timer=0;
-	cube* platform=create_platform(World);
-
-	sf::Event event;
- 	while (Window.isOpen()){
-	while (Window.pollEvent(event)){ if (event.key.code == sf::Keyboard::Escape) Window.close();}
-
-	timer++;
-	if(timer%COMPLEXITY==0) last=create_cube(World, last); //ever 1000 create a cube
+//Create boat
+	b2Body* boat=CreateBoat(World, 480, 128);
+	sf::Sprite boatSprite;
+	boatSprite.setTexture(boatTexture);
+	boatSprite.setOrigin(9.f, 9.f);
 
 
-        World.Step(1/24.f, 8, 3);
 
-
-	current=first;//start to calculating a movement of all cubes
-       	do{
-	movement_calc(current);
-	if(current->next!=NULL)current=current->next;
-	} while(current->next!=NULL);
-	Window.clear(sf::Color::Black);
-
-        current=first;//display all cubes
-	do{		
-		Window.draw(current->Sprite);
-       		if(current->next!=NULL)current=current->next;
-	}while(current->next!=NULL);
-	movement_platform(platform, sf::Mouse::getPosition(Window).x);
-	Window.draw(platform->Sprite);
+	while (Window.isOpen()){
+	while (Window.pollEvent(LogOut)){if(LogOut.key.code==sf::Keyboard::Escape) Window.close();}
+	World.Step(1/60.f, 8, 3);
+        Window.clear(sf::Color::White);
+	Window.draw(mapSprite);
+	Window.draw(finishSprite);	
+	for(i=0; i<vortexnum; i++){
+		vortexSprite.setPosition(vortex[i][0]*32, vortex[i][1]*32);
+		Window.draw(vortexSprite);
+	}
 	
-	//	
-		elapsed1 = clock.getElapsedTime();
-        ss.str(std::string()); //clear the string
-        ss << std::endl << "Time"<<std::endl;
-        ss << elapsed1.asSeconds();
-        //ss << std::endl << "Time";
-        text.setString( ss.str().c_str());
-//		
-	Window.draw(text);
-	
+	BoatMovementCalculation(&Window, boat);
+	boatSprite.setPosition(SCALE * boat->GetPosition().x, SCALE * boat->GetPosition().y);
+	Window.draw(boatSprite);
+	eventfind=eventcheck(boat);
+	if(eventfind==1) return 0;
         Window.display();
 	}
-return 0;
+ 
+        return 0;
 }
