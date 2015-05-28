@@ -24,15 +24,18 @@ int main(){
 	sf::Texture vortexTexture;
 	sf::Texture finishTexture;
 	sf::Texture overTexture;
+	sf::Texture winTexture;
 	mapTexture.loadFromFile("map1.png");
 	boatTexture.loadFromFile("boat.png");
 	vortexTexture.loadFromFile("vortex.png");
 	finishTexture.loadFromFile("finish.png");
 	overTexture.loadFromFile("over.png");
+	winTexture.loadFromFile("win.png");
 	sf::Sprite mapSprite;
 	sf::Sprite vortexSprite;
 	sf::Sprite finishSprite;
 	sf::Sprite overSprite;
+	sf::Sprite winSprite;
 	mapSprite.setTexture(mapTexture);
 	vortexSprite.setTexture(vortexTexture);
 	finishSprite.setTexture(finishTexture);	
@@ -77,6 +80,22 @@ int main(){
 		while (elapsed<=delay) 
 		{
 			Window.draw(overSprite);
+			Window.display(); 
+			elapsed += count;
+		}
+		return 0;
+	}
+	else if(eventfind==2) 
+	{
+		sf::Time elapsed; // set time object
+		sf::Time delay = sf::seconds(20.0f);
+		winSprite.setPosition(522, 202);
+		elapsed = sf::seconds(0.0f);
+		sf::Time count = sf::seconds (0.1f);
+		
+		while (elapsed<=delay) 
+		{
+			Window.draw(winSprite);
 			Window.display(); 
 			elapsed += count;
 		}
